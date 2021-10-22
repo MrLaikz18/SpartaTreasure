@@ -1,0 +1,50 @@
+message:
+  top: "&6%player%: &7%points%"
+  already_event: "&cIl y a deja un event en cours !"
+  config_reloaded: "&aConfiguration Réinitialisée"
+  config_updated: "&aConfiguration mise à jour"
+
+database:
+  host: "localhost"
+  port: "3306"
+  database: "Test"
+  user: "admin"
+  password: "password"
+  table: "SpartaCube"
+
+times:
+  chest_deleted: 10
+  game: 600
+
+
+broadcast:
+  times:
+    - 5
+    - 3
+    - 2
+    - 1
+  chest_opened: "&aUn coffre a été ouvert par &6&l%player%"
+  event_stop_in: "&aL'event se termine dans %time%"
+  event_starts_in: "&aL'event commence dans %time%"
+  event_wait: "&aPréparation de l'Event TreasureMap"
+  event_start: "&aDébut de l'Event TreasureMap"
+
+inventories:
+  inv1:
+    STONE:
+      amount: 1
+      enchants:
+        SHARPNESS: 5
+        UNBREAKING: 4
+  inv2:
+    DIAMOND_SWORD:
+      amount: 2
+      enchants:
+        SHARPNESS: 5
+        UNBREAKING: 4
+  inv3:
+    IRON_SWORD:
+      amount: 3
+      enchants:
+        SHARPNESS: 5
+        UNBREAKING: 4

@@ -1,0 +1,7 @@
+name: SpartaTreasure
+version: 1.0
+author: MrLaikz
+main: fr.mrlaikz.spartatreasure.SpartaTreasure
+commands:
+  treasure:
+    description: "Treasure Command"
