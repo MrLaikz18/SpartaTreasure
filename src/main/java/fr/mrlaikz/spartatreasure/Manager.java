@@ -24,25 +24,24 @@ public class Manager {
     public Manager(SpartaTreasure plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
+        state = GameState.NONE;
     }
 
     //EVENT
     private GameState state;
-    private int round;
-    private int opened;
+    private int opened = 0;
 
     //GAME
     private ArrayList<Location> allLocations = new ArrayList<Location>();
     private ArrayList<Inventory> allInventories = new ArrayList<Inventory>();
     private ArrayList<Location> savedLocations = new ArrayList<Location>();
 
+    private WaitTimer waitTimer;
+    private GameTimer gameTimer;
+
     //EVENT
     public GameState getState() {
         return state;
-    }
-
-    public int getRound() {
-        return round;
     }
 
     public void addOpenedChests() {
@@ -55,35 +54,38 @@ public class Manager {
 
     public void waitEvent() {
         state = GameState.WAITING;
+        waitTimer = new WaitTimer(plugin);
+        waitTimer.runTaskTimer(plugin, 0, 20);
         Bukkit.broadcastMessage(plugin.strConfig("broadcast.event_wait"));
-        WaitTimer timer = new WaitTimer(plugin);
-        timer.runTaskTimer(plugin, 0, 20);
     }
 
     public void startEvent() {
-        round++;
+        state = GameState.GAME;
+        opened = 0;
         spawnChests();
+        gameTimer = new GameTimer(plugin);
+        gameTimer.runTaskTimer(plugin, 0, 20);
         Bukkit.broadcastMessage(plugin.strConfig("broadcast.event_start"));
-        GameTimer timer = new GameTimer(plugin);
-        timer.runTaskTimer(plugin, 0, 20);
+    }
+
+    public void stopGameTimer() {
+        gameTimer.cancel();
     }
 
     public void stopEvent() {
         for(Location loc : allLocations) {
             loc.getBlock().setType(Material.AIR);
         }
-        round = 0;
         state = GameState.NONE;
-    }
-
-    //GAME
-    public ArrayList<Location> getLocations() {
-        return savedLocations;
+        Bukkit.broadcastMessage(plugin.strConfig("broadcast.event_finished")
+                .replace("%opened%", String.valueOf(getOpenedChests())));
     }
 
     public ArrayList<Location> getAllLocations() {
         return allLocations;
     }
+
+    public ArrayList<Inventory> getAllInventories() { return allInventories; }
 
     public void load() {
         loadAllLocations();
@@ -128,53 +130,58 @@ public class Manager {
         }
     }
 
-    public void loadLocations() {
-        //SAVE 3 RANDOM LOCATIONS
-        savedLocations.clear();
-        Random r = new Random();
-        if(allLocations.size() == 3) {
-            savedLocations = allLocations;
-        } else {
-            ArrayList<Location> locations = allLocations;
-            while(savedLocations.size() != 3) {
-                int rd = r.nextInt(locations.size());
-                savedLocations.add(locations.get(rd));
-                locations.remove(rd);
-            }
+    public ArrayList<Location> getLocations() {
+        return savedLocations;
+    }
+
+    public void clearChests() {
+        for(Location loc : allLocations) {
+            loc.getBlock().setType(Material.AIR);
         }
     }
 
     public void spawnChests() {
         Random r = new Random();
-        //SAVE 3 RANDOM LOCATIONS
-        loadLocations();
 
-        //SAVE 3 RANDOM INVENTORIES
+        loadAllInventories();
         ArrayList<Inventory> savedInventories = new ArrayList<Inventory>();
         if(allInventories.size() == 3) {
             savedInventories = allInventories;
         } else {
-            ArrayList<Inventory> inventories = allInventories;
             while(savedInventories.size() != 3) {
-                int rd = r.nextInt(inventories.size());
-                savedInventories.add(inventories.get(rd));
-                inventories.remove(rd);
+                int index = r.nextInt(allInventories.size());
+                if(!savedInventories.contains(allInventories.get(index))) {
+                    savedInventories.add(allInventories.get(index));
+                }
+            }
+        }
+        //SAVE 3 RANDOM LOCATIONS
+        savedLocations.clear();
+        if(allLocations.size() == 3) {
+            savedLocations = allLocations;
+        } else {
+            while(savedLocations.size() != 3) {
+                int index = r.nextInt(allLocations.size());
+                if(!savedLocations.contains(allLocations.get(index))) {
+                    savedLocations.add(allLocations.get(index));
+                }
             }
         }
 
         //SPAWN CHESTS
+        int t = 0;
         for(Location loc : savedLocations) {
+            Inventory inv = savedInventories.get(t);
             loc.getBlock().setType(Material.CHEST);
             Chest c = (Chest) loc.getBlock().getState();
-            Inventory invChest = savedInventories.get(savedInventories.size()-1);
-            for(ItemStack it : invChest.getContents()) {
-                c.getBlockInventory().setItem(r.nextInt(26), it);
+            for(ItemStack it : inv.getContents()) {
+                if(it != null) {
+                    c.getBlockInventory().setItem(r.nextInt(27), it);
+                }
             }
-            savedInventories.remove(savedInventories.size()-1);
+            t++;
         }
 
     }
-
-
 
 }

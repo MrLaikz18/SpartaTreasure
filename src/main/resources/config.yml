@@ -1,34 +1,33 @@
+world: world
 message:
-  top: "&6%player%: &7%points%"
-  already_event: "&cIl y a deja un event en cours !"
-  config_reloaded: "&aConfiguration Réinitialisée"
-  config_updated: "&aConfiguration mise à jour"
-
+  top: '&6&l%top%&6: &6%player%: &7%points%'
+  already_event: '&cIl y a deja un event en cours !'
+  config_reloaded: '&aConfiguration Réinitialisée'
+  config_updated: '&aConfiguration mise à jour'
 database:
-  host: "localhost"
-  port: "3306"
-  database: "Test"
-  user: "admin"
-  password: "password"
-  table: "SpartaCube"
-
+  host: localhost
+  port: '3306'
+  database: Test
+  user: admin
+  password: password
+  table: SpartaCube
 times:
-  chest_deleted: 10
-  game: 600
-
-
+  chest_delete: 10
+  game: 15
+  wait: 15
 broadcast:
   times:
     - 5
+    - 4
     - 3
     - 2
     - 1
-  chest_opened: "&aUn coffre a été ouvert par &6&l%player%"
-  event_stop_in: "&aL'event se termine dans %time%"
-  event_starts_in: "&aL'event commence dans %time%"
-  event_wait: "&aPréparation de l'Event TreasureMap"
-  event_start: "&aDébut de l'Event TreasureMap"
-
+  chest_opened: '&aUn coffre a été ouvert par &6&l%player%'
+  event_stop_in: '&aL''event se termine dans %time%'
+  event_starts_in: '&aL''event commence dans %time%'
+  event_wait: '&aPréparation de l''Event TreasureMap'
+  event_start: '&aDébut de l''Event TreasureMap'
+  event_finished: "&cFin de l'Event: &6%opened% &acoffres ouverts"
 inventories:
   inv1:
     STONE:
@@ -48,3 +47,26 @@ inventories:
       enchants:
         SHARPNESS: 5
         UNBREAKING: 4
+  inv4:
+    DIAMOND_SWORD:
+      amount: 10
+      enchants:
+        SHARPNESS: 5
+        UNBREAKING: 1
+locations:
+  bas:
+    x: 17
+    y: 68
+    z: 15
+  mid:
+    x: 17
+    y: 69
+    z: 15
+  top:
+    x: 17
+    y: 70
+    z: 15
+  etop:
+    x: 17
+    y: 71
+    z: 15

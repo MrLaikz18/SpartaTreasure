@@ -23,6 +23,7 @@ public class Treasure implements CommandExecutor {
     public Treasure(SpartaTreasure plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
+        this.data = new Data(plugin);
     }
 
     @Override
@@ -37,7 +38,8 @@ public class Treasure implements CommandExecutor {
                 for(String pl : top) {
                     p.sendMessage(plugin.strConfig("message.top")
                             .replace("%player%", pl)
-                            .replace("%points%", String.valueOf(data.getPoints(pl))));
+                            .replace("%points%", String.valueOf(data.getPoints(pl)))
+                            .replace("%top%", String.valueOf(top.indexOf(pl)+1)));
                 }
             }
 
@@ -50,12 +52,12 @@ public class Treasure implements CommandExecutor {
                         } else {
                             p.sendMessage(plugin.strConfig("message.already_event"));
                         }
-                    }
-
-                    if(args[0].equalsIgnoreCase("reload")) {
+                    } else if(args[0].equalsIgnoreCase("reload")) {
                         plugin.reloadConfig();
                         plugin.getManager().load();
                         p.sendMessage(plugin.strConfig("message.config_reloaded"));
+                    } else {
+                        p.sendMessage("§cCommande Inconnue");
                     }
 
                 }
@@ -72,6 +74,7 @@ public class Treasure implements CommandExecutor {
                         config.set("locations." + args[1].toLowerCase(Locale.ROOT) + ".y", y);
                         config.set("locations." + args[1].toLowerCase(Locale.ROOT) + ".z", z);
                         plugin.saveConfig();
+                        plugin.getManager().load();
                         p.sendMessage(plugin.strConfig("message.config_updated"));
                     }
 

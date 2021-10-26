@@ -27,11 +27,8 @@ public class GameTimer extends BukkitRunnable {
         }
 
         if(timer == 0) {
-            if(plugin.getManager().getRound() == 3) {
-                plugin.getManager().stopEvent();
-                return;
-            }
-            plugin.getManager().waitEvent();
+            plugin.getManager().stopEvent();
+            cancel();
         }
         timer--;
     }

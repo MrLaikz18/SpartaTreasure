@@ -36,7 +36,9 @@ public class Data {
             PreparedStatement ps = plugin.getDatabase().prepareStatement("SELECT * FROM " + table + " WHERE player = ?");
             ps.setString(1, nom);
             ResultSet rs = ps.executeQuery();
-            return rs.next();
+            if(rs.next()) {
+                return true;
+            }
         } catch(SQLException e) {
             e.printStackTrace();
         }
@@ -55,10 +57,12 @@ public class Data {
 
     public int getPoints(String nom) {
         try {
-            PreparedStatement ps = plugin.getDatabase().prepareStatement("SELECT points FROM " + table + " WHERE player = ?");
+            PreparedStatement ps = plugin.getDatabase().prepareStatement("SELECT * FROM " + table + " WHERE player = ?");
             ps.setString(1, nom);
             ResultSet rs = ps.executeQuery();
-            return rs.getInt("points");
+            if(rs.next()) {
+                return rs.getInt("points");
+            }
         } catch(SQLException e) {
             e.printStackTrace();
         }

@@ -27,6 +27,7 @@ public class WaitTimer extends BukkitRunnable {
 
         if(timer == 0) {
             plugin.getManager().startEvent();
+            cancel();
         }
         timer--;
     }

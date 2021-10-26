@@ -21,6 +21,7 @@ public class SpartaTreasure extends JavaPlugin {
         //CONFIG
         saveDefaultConfig();
         manager = new Manager(this);
+        manager.load();
 
         //COMMANDS
         getCommand("treasure").setExecutor(new Treasure(this));

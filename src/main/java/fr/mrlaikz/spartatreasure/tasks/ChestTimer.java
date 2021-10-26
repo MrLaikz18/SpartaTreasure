@@ -13,19 +13,26 @@ public class ChestTimer extends BukkitRunnable {
 
     private int timer;
     private Location loc;
+    private Boolean last;
 
-    public ChestTimer(SpartaTreasure plugin, Location loc) {
+    public ChestTimer(SpartaTreasure plugin, Location loc, Boolean last) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
         this.loc = loc;
+        this.last = last;
         timer = config.getInt("times.chest_delete");
     }
 
 
     @Override
     public void run() {
-        if(timer == 0) {
+        if(timer == 0 ) {
             loc.getBlock().setType(Material.AIR);
+            if(Boolean.TRUE.equals(last)) {
+                plugin.getManager().stopGameTimer();
+                plugin.getManager().stopEvent();
+            }
+            cancel();
         }
         timer--;
     }
