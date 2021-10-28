@@ -41,7 +41,6 @@ public class SpartaTreasure extends JavaPlugin {
 
         //MISC
         getLogger().info("Plugin Actif");
-        manager.load();
     }
 
     public Manager getManager() {
