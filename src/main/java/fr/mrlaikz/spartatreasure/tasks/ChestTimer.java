@@ -1,5 +1,6 @@
 package fr.mrlaikz.spartatreasure.tasks;
 
+import fr.mrlaikz.spartatreasure.GameState;
 import fr.mrlaikz.spartatreasure.SpartaTreasure;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,12 +24,11 @@ public class ChestTimer extends BukkitRunnable {
         timer = config.getInt("times.chest_delete");
     }
 
-
     @Override
     public void run() {
         if(timer == 0 ) {
             loc.getBlock().setType(Material.AIR);
-            if(Boolean.TRUE.equals(last)) {
+            if(Boolean.TRUE.equals(last) && plugin.getManager().getState().equals(GameState.GAME)) {
                 plugin.getManager().stopGameTimer();
                 plugin.getManager().stopEvent();
             }
