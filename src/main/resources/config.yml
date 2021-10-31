@@ -4,6 +4,10 @@ message:
   already_event: '&cIl y a deja un event en cours !'
   config_reloaded: '&aConfiguration Réinitialisée'
   config_updated: '&aConfiguration mise à jour'
+  chest_added: "&aLe coffre a été ajouté avec sucés"
+  inv_empty: "&cCe coffre est vide !"
+  error_chest: "&cCe block n'est pas un coffre !"
+  error_inv: "&cCe nom est deja pris"
 database:
   host: localhost
   port: '3306'
@@ -29,30 +33,7 @@ broadcast:
   event_start: '&aDébut de l''Event TreasureMap'
   event_finished: "&cFin de l'Event: &6%opened% &acoffres ouverts"
 inventories:
-  inv1:
-    STONE:
-      amount: 1
-      enchants:
-        SHARPNESS: 5
-        UNBREAKING: 4
-  inv2:
-    DIAMOND_SWORD:
-      amount: 2
-      enchants:
-        SHARPNESS: 5
-        UNBREAKING: 4
-  inv3:
-    IRON_SWORD:
-      amount: 3
-      enchants:
-        SHARPNESS: 5
-        UNBREAKING: 4
-  inv4:
-    DIAMOND_SWORD:
-      amount: 10
-      enchants:
-        SHARPNESS: 5
-        UNBREAKING: 1
+
 locations:
   bas:
     x: 17

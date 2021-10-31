@@ -4,11 +4,16 @@ import fr.mrlaikz.spartatreasure.GameState;
 import fr.mrlaikz.spartatreasure.SpartaTreasure;
 import fr.mrlaikz.spartatreasure.database.Data;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -74,8 +79,36 @@ public class Treasure implements CommandExecutor {
                         config.set("locations." + args[1].toLowerCase(Locale.ROOT) + ".y", y);
                         config.set("locations." + args[1].toLowerCase(Locale.ROOT) + ".z", z);
                         plugin.saveConfig();
-                        plugin.getManager().load();
+                        plugin.getManager().loadAllLocations();
                         p.sendMessage(plugin.strConfig("message.config_updated"));
+                    }
+
+                    if(args[0].equalsIgnoreCase("setinv")) {
+                        if(config.getConfigurationSection("inventories." + args[1].toLowerCase(Locale.ROOT)) == null) {
+                            Block b = p.getTargetBlock(null, 50);
+                            if (b.getType().equals(Material.CHEST)) {
+                                Chest c = (Chest) b.getState();
+                                if (!c.getBlockInventory().isEmpty()) {
+                                    Inventory inv = c.getBlockInventory();
+                                    int i = 0;
+                                    for (ItemStack it : inv.getContents()) {
+                                        if (it != null) {
+                                            config.set("inventories." + args[1].toLowerCase(Locale.ROOT) + "." + i, it);
+                                            i++;
+                                        }
+                                    }
+                                    plugin.saveConfig();
+                                    plugin.getManager().loadAllInventories();
+                                    p.sendMessage(plugin.strConfig("message.chest_added"));
+                                } else {
+                                    p.sendMessage(plugin.strConfig("message.inv_empty"));
+                                }
+                            } else {
+                                p.sendMessage(plugin.strConfig("message.error_chest"));
+                            }
+                        } else {
+                            p.sendMessage(plugin.strConfig("message.error_inv"));
+                        }
                     }
 
                 }
@@ -87,6 +120,7 @@ public class Treasure implements CommandExecutor {
         } else {
             if(args.length == 1 && args[0].equalsIgnoreCase("reload")) {
                 plugin.reloadConfig();
+                plugin.getManager().load();
                 sender.sendMessage("CONFIGURATION RELOADED");
             } else {
                 sender.sendMessage("COMMANDE INACCESSIBLE DEPUIS LA CONSOLE");

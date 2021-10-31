@@ -5,13 +5,10 @@ import fr.mrlaikz.spartatreasure.tasks.WaitTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -109,24 +106,15 @@ public class Manager {
     public void loadAllInventories() {
         //LOAD allInventories
         allInventories.clear();
-        for (String invent : config.getConfigurationSection("inventories").getKeys(false)) {
-            Inventory inv = Bukkit.createInventory(null, 27);
-            for (String item : config.getConfigurationSection("inventories." + invent).getKeys(false)) {
-
-                ItemStack it = new ItemStack(Material.matchMaterial(item), config.getInt("inventories." + invent + "." + item + ".amount"));
-                ItemMeta itM = it.getItemMeta();
-
-                if (plugin.getConfig().getConfigurationSection("inventories." + invent + "." + item + ".enchants") != null) {
-                    for (String enchant : plugin.getConfig().getConfigurationSection("inventories." + invent + "." + item + ".enchants").getKeys(false)) {
-                        Integer enchantlvl = config.getInt("inventories." + invent + "." + item + ".enchants." + enchant);
-                        itM.addEnchant(Enchantment.getByKey(NamespacedKey.minecraft(enchant.toLowerCase())), enchantlvl, true);
-                    }
+        if(config.getConfigurationSection("inventories") != null) {
+            for (String invent : config.getConfigurationSection("inventories").getKeys(false)) {
+                Inventory inv = Bukkit.createInventory(null, 27);
+                for (String item : config.getConfigurationSection("inventories." + invent).getKeys(false)) {
+                    ItemStack it = config.getItemStack("inventories." + invent + "." + item);
+                    inv.addItem(it);
                 }
-
-                it.setItemMeta(itM);
-                inv.addItem(it);
+                allInventories.add(inv);
             }
-            allInventories.add(inv);
         }
     }
 
