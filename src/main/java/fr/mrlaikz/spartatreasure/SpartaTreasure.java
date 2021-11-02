@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 public class SpartaTreasure extends JavaPlugin {
 
@@ -34,6 +35,7 @@ public class SpartaTreasure extends JavaPlugin {
             db.createTable();
         } catch(SQLException e) {
             e.printStackTrace();
+            getLogger().log(Level.SEVERE, "Connexion a la base de donnée impossible");
         }
 
         //EVENTS

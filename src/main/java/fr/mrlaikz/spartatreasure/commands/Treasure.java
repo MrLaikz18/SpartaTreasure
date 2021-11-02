@@ -59,7 +59,6 @@ public class Treasure implements CommandExecutor {
                         }
                     } else if(args[0].equalsIgnoreCase("reload")) {
                         plugin.reloadConfig();
-                        plugin.getManager().load();
                         p.sendMessage(plugin.strConfig("message.config_reloaded"));
                     } else {
                         p.sendMessage("§cCommande Inconnue");
@@ -71,15 +70,14 @@ public class Treasure implements CommandExecutor {
 
                     if(args[0].equalsIgnoreCase("setloc")) {
                         Location loc = p.getLocation();
-                        int x = (int) loc.getX();
-                        int y = (int) loc.getY();
-                        int z = (int) loc.getZ();
+                        double x = loc.getX();
+                        double y = loc.getY();
+                        double z = loc.getZ();
 
                         config.set("locations." + args[1].toLowerCase(Locale.ROOT) + ".x", x);
                         config.set("locations." + args[1].toLowerCase(Locale.ROOT) + ".y", y);
                         config.set("locations." + args[1].toLowerCase(Locale.ROOT) + ".z", z);
                         plugin.saveConfig();
-                        plugin.getManager().loadAllLocations();
                         p.sendMessage(plugin.strConfig("message.config_updated"));
                     }
 
@@ -98,7 +96,6 @@ public class Treasure implements CommandExecutor {
                                         }
                                     }
                                     plugin.saveConfig();
-                                    plugin.getManager().loadAllInventories();
                                     p.sendMessage(plugin.strConfig("message.chest_added"));
                                 } else {
                                     p.sendMessage(plugin.strConfig("message.inv_empty"));
@@ -120,7 +117,6 @@ public class Treasure implements CommandExecutor {
         } else {
             if(args.length == 1 && args[0].equalsIgnoreCase("reload")) {
                 plugin.reloadConfig();
-                plugin.getManager().load();
                 sender.sendMessage("CONFIGURATION RELOADED");
             } else {
                 sender.sendMessage("COMMANDE INACCESSIBLE DEPUIS LA CONSOLE");
