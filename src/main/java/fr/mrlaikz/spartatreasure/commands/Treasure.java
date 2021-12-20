@@ -46,6 +46,7 @@ public class Treasure implements CommandExecutor {
                             .replace("%points%", String.valueOf(data.getPoints(pl)))
                             .replace("%top%", String.valueOf(top.indexOf(pl)+1)));
                 }
+                return true;
             }
 
             if(p.hasPermission("spartatreasure.manage")) {
@@ -63,7 +64,6 @@ public class Treasure implements CommandExecutor {
                     } else {
                         p.sendMessage("§cCommande Inconnue");
                     }
-
                 }
 
                 if(args.length == 2) {
