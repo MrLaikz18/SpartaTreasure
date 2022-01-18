@@ -2,7 +2,6 @@ package fr.mrlaikz.spartatreasure.commands;
 
 import fr.mrlaikz.spartatreasure.GameState;
 import fr.mrlaikz.spartatreasure.SpartaTreasure;
-import fr.mrlaikz.spartatreasure.database.Data;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,19 +15,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class Treasure implements CommandExecutor {
 
     private SpartaTreasure plugin;
     private FileConfiguration config;
-    private Data data;
 
     public Treasure(SpartaTreasure plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
-        this.data = new Data(plugin);
     }
 
     @Override
@@ -37,18 +33,6 @@ public class Treasure implements CommandExecutor {
         if(sender instanceof Player) {
 
             Player p = (Player) sender;
-
-            if(args.length == 0) {
-                ArrayList<String> top = data.top();
-                for(String pl : top) {
-                    p.sendMessage(plugin.strConfig("message.top")
-                            .replace("%player%", pl)
-                            .replace("%points%", String.valueOf(data.getPoints(pl)))
-                            .replace("%top%", String.valueOf(top.indexOf(pl)+1)));
-                }
-                return true;
-            }
-
             if(p.hasPermission("spartatreasure.manage")) {
                 if(args.length == 1) {
 

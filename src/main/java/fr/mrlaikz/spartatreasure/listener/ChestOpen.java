@@ -2,7 +2,6 @@ package fr.mrlaikz.spartatreasure.listener;
 
 import fr.mrlaikz.spartatreasure.GameState;
 import fr.mrlaikz.spartatreasure.SpartaTreasure;
-import fr.mrlaikz.spartatreasure.database.Data;
 import fr.mrlaikz.spartatreasure.tasks.ChestTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,12 +18,10 @@ public class ChestOpen implements Listener {
 
     private SpartaTreasure plugin;
     private FileConfiguration config;
-    private Data data;
 
     public ChestOpen(SpartaTreasure plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
-        this.data = new Data(plugin);
     }
 
     @EventHandler
@@ -40,7 +37,6 @@ public class ChestOpen implements Listener {
                         if (plugin.getManager().getLocations().contains(loc)) {
                             plugin.getManager().addOpenedChests();
                             plugin.getManager().getLocations().remove(loc);
-                            data.addPoints(p.getName());
                             if(plugin.getManager().getOpenedChests() == 3) {
                                 ChestTimer timer = new ChestTimer(plugin, loc, true);
                                 timer.runTaskTimer(plugin, 0, 20);
