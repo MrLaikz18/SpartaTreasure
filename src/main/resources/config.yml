@@ -8,13 +8,6 @@ message:
   inv_empty: "&cCe coffre est vide !"
   error_chest: "&cCe block n'est pas un coffre !"
   error_inv: "&cCe nom est deja pris"
-database:
-  host: localhost
-  port: '3306'
-  database: Test
-  user: admin
-  password: password
-  table: SpartaCube
 times:
   chest_delete: 10
   game: 15
