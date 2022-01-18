@@ -97,7 +97,7 @@ public class Manager {
                 int x = config.getInt("locations." + loc + ".x");
                 int y = config.getInt("locations." + loc + ".y");
                 int z = config.getInt("locations." + loc + ".z");
-                Location add = new Location(Bukkit.getWorld(config.getString("world")), x, y, z);
+                Location add = new Location(Bukkit.getWorld("spawn"), x, y, z);
                 allLocations.add(add);
             }
         }

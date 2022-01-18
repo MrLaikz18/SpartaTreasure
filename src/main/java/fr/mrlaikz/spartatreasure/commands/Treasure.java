@@ -60,7 +60,18 @@ public class Treasure implements CommandExecutor {
                         }
                     } else if(args[0].equalsIgnoreCase("reload")) {
                         plugin.reloadConfig();
+                        plugin.getManager().loadAllLocations();
                         p.sendMessage(plugin.strConfig("message.config_reloaded"));
+                    } else if(args[0].equalsIgnoreCase("get")) {
+                        if(plugin.getManager().getState().equals(GameState.GAME)) {
+                            p.sendMessage("§cLocalisations des coffres:");
+                            Location un = plugin.getManager().getLocations().get(0);
+                            Location deux = plugin.getManager().getLocations().get(1);
+                            Location trois = plugin.getManager().getLocations().get(2);
+                            p.sendMessage("§61: " + un.getX() + " ; " + un.getY() + " ; " + un.getZ());
+                            p.sendMessage("§62: " + deux.getX() + " ; " + deux.getY() + " ; " + deux.getZ());
+                            p.sendMessage("§63: " + trois.getX() + " ; " + trois.getY() + " ; " + trois.getZ());
+                        }
                     } else {
                         p.sendMessage("§cCommande Inconnue");
                     }
